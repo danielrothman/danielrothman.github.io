@@ -10,7 +10,7 @@ On my spare time I study different fields of technology. Currently I'm working o
 
 ### Certificates
 
-![alt text][ccna_routerswitching_sm.gif] Cisco CCNA
+![alt text](https://github.com/danielrothman/danielrothman.github.io/blob/master/images/ccna_routerswitching_sm.gif?raw=true "CCNA") Cisco CCNA
 [Verificaion Number 426174174261BQUH](http://www.cisco.com/go/verifycertificate)
 
 ![alt text][ccent_network_sm.gif] Cisco CCENT
