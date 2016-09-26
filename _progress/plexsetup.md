@@ -1,10 +1,8 @@
-Installing Plex on minimal CENTOS 7 system inside ESXi 6 and using FreeNAS storage.
+Setting up Plex Pass on a minimal CENTOS 7 system inside ESXi 6 and using FreeNAS storage.
 
 Download minimal CENTOS from http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso
 
 Install it on your ESXi system.
-
-
 
 I setup a secondary internal network to pass the storage traffic between systems.
 I have a managment LAN and a storage LAN.
