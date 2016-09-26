@@ -35,3 +35,10 @@ So the tricky part is next, We need to setup vt-d on our system to passthrough t
 4. install freenas
 5. enable the pci controller inside freenas
 6. configure freenas the way you need it.
+
+
+TODO:
+
+1. offsite backup with versioning 
+1. securing systems
+2. improving freenas performance
