@@ -22,3 +22,16 @@ New Setup:
   
 About ECC memory
 ECC memory is importatnt when using FreeNAS to prevent issues with bad data getting written to your ZPool. I would perfer to use ECC memory, but in my case the extra cost for equipment that fits my needs that also support ECC was not going to work for me. If you plan to use non-ECC, I cant stress enough to keep backups of your data with incramental changes (crashplan). [There are some great articles about the difference between using ECC and non-ECC with ZFS.](http://jrs-s.net/2015/02/03/will-zfs-and-non-ecc-ram-kill-your-data/). I feel this article is a great read, I feel it puts a correct light on the comparison between ECC and Non-ECC for your server. 
+
+Installing ESXi:
+I installed ESXi onto a USB Flash drive. This method works great since ESXi does not write many much data to the storage drive. Any configuraiton changes will get written to the USB flash drive in 10 minute incraments. So if there are no changes there will be no data written to the drive.
+
+Installing FreeNAS as a Guest VM:
+So the tricky part is next, We need to setup vt-d on our system to passthrough the PCI ATCI controller to the FreeNAS VM. Since we are going to passthrough the controller we wont have access to it from our ESXi 6 Hypervysor so we need to rely on our USB drives for stroage.
+
+1. configure vt-d in the bios
+2. disable usb passthrough to vms so we can use the USB drives for our datastore for FreeNAS (we need this locally since we have to load freenas before the storage comes up.
+3. manually enable the pci ahci controller to passthrough
+4. install freenas
+5. enable the pci controller inside freenas
+6. configure freenas the way you need it.
