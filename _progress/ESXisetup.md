@@ -31,6 +31,35 @@ So the tricky part is next, We need to setup vt-d on our system to passthrough t
 
 1. configure vt-d in the bios
 2. disable usb passthrough to vms so we can use the USB drives for our datastore for FreeNAS (we need this locally since we have to load freenas before the storage comes up.
+ *http://www.virten.net/2015/10/usb-devices-as-vmfs-datastore-in-vsphere-esxi-6-0/
+```Stop the USB arbitrator service. This service is used to passthrough USB device from an ESX/ESXi host to a virtual machine. (When disabling it, you can no longer passthrough USB devices to VMs)
+ ~ # /etc/init.d/usbarbitrator stop
+ Use this command to permanently disable the USB arbitrator service after reboot.
+~ # chkconfig usbarbitrator off
+Plug in the USB Device to your ESXi host
+Get the device identifier (mpx.vmhbaXX). You should see the USB Device in /dev/disks/:
+~ # ls /dev/disks/
+Write a GPT label to the device (Assuming that the Device ID is mpx.vmhba36)
+~ # partedUtil mklabel /dev/disks/mpx.vmhba36\:C0\:T0\:L0 gpt
+To create a partition you need to know the start sector, end sector, which depends on the device size and the GUID.
+The start sector is always 2048
+The GUID for VMFS is AA31E02A400F11DB9590000C2911D1B8
+The end sector can be calculated with the following formula (Use the numbers from getptbl):
+~ # partedUtil getptbl /dev/disks/mpx.vmhba36\:C0\:T0\:L0
+gpt
+1947 255 63 31293440
+1947 * 255 * 63 – 1 = 31278554
+
+You can also calculate the endsector with the following command:
+
+~ # eval expr $(partedUtil getptbl /dev/disks/mpx.vmhba36\:C0\:T0\:L0 | tail -1 | awk '{print $1 " \\* " $2 " \\* " $3}') - 1
+31278554
+Create the VMFS partition (Replace with your endsector)
+~ # partedUtil setptbl /dev/disks/mpx.vmhba36\:C0\:T0\:L0 gpt "1 2048 31278554 AA31E02A400F11DB9590000C2911D1B8 0"
+Format the partition with VMFS5
+~ # vmkfstools -C vmfs5 -S USB-Stick /dev/disks/mpx.vmhba36\:C0\:T0\:L0:1
+The USB-Stick should now appear in your datastores view.
+```
 3. manually enable the pci ahci controller to passthrough
 4. install freenas
 5. enable the pci controller inside freenas
