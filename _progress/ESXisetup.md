@@ -32,7 +32,8 @@ So the tricky part is next, We need to setup vt-d on our system to passthrough t
 1. configure vt-d in the bios
 2. disable usb passthrough to vms so we can use the USB drives for our datastore for FreeNAS (we need this locally since we have to load freenas before the storage comes up.
  *http://www.virten.net/2015/10/usb-devices-as-vmfs-datastore-in-vsphere-esxi-6-0/
-```Stop the USB arbitrator service. This service is used to passthrough USB device from an ESX/ESXi host to a virtual machine. (When disabling it, you can no longer passthrough USB devices to VMs)
+```
+Stop the USB arbitrator service. This service is used to passthrough USB device from an ESX/ESXi host to a virtual machine. (When disabling it, you can no longer passthrough USB devices to VMs)
  ~ # /etc/init.d/usbarbitrator stop
  Use this command to permanently disable the USB arbitrator service after reboot.
 ~ # chkconfig usbarbitrator off
