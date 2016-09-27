@@ -85,6 +85,8 @@ Then add them to your passthru.map file like so:
 
 TODO:
 
-1. offsite backup with versioning 
+1. offsite backup with differential versioning. CrashPlan 
 1. securing systems
-2. improving freenas performance
+2. improving freenas, and other systems performance.
+ *change storage network MTU to 9000
+ *experiment with iSCSI storage vs NFS
