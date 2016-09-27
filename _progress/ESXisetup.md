@@ -27,7 +27,7 @@ Installing ESXi:
 I installed ESXi onto a USB Flash drive. This method works great since ESXi does not write many much data to the storage drive. Any configuraiton changes will get written to the USB flash drive in 10 minute incraments. So if there are no changes there will be no data written to the drive.
 
 Installing FreeNAS as a Guest VM:
-So the tricky part is next, We need to setup vt-d on our system to passthrough the PCI ATCI controller to the FreeNAS VM. Since we are going to passthrough the controller we wont have access to it from our ESXi 6 Hypervysor so we need to rely on our USB drives for stroage.
+So the tricky part is next, We need to setup vt-d on our system to passthrough the PCI ATCI controller to the FreeNAS VM. Since we are going to passthrough the controller we wont have access to it from our ESXi 6 Hypervysor so we need to rely on a USB drive to store our FreeNAS VM.
 
 1. configure vt-d in the bios
 2. disable usb passthrough to vms so we can use the USB drives for our datastore for FreeNAS (we need this locally since we have to load freenas before the storage comes up.
@@ -61,9 +61,25 @@ Format the partition with VMFS5
 ~ # vmkfstools -C vmfs5 -S USB-Stick /dev/disks/mpx.vmhba36\:C0\:T0\:L0:1
 The USB-Stick should now appear in your datastores view.
 ```
-3. manually enable the pci ahci controller to passthrough
+3. manually enable the pci ahci controller to be selectable for passthrough to the FreeNAS VM.
+ *https://forums.servethehome.com/index.php?threads/esxi-6-0-passthrough-onboard-sata.8902/
+ *https://forums.servethehome.com/index.php?threads/usb-thumb-drive-datastore-built-in-intel-lynx-point-ahci-controller-vt-d-successful-aio.8716/
+ *http://www.vmware.com/pdf/vsp_4_vmdirectpath_host.pdf
+```
+You'll need the vendor and device id. Run lspci at the ESXi command line. Look for the line pertaining to your mass storage controller. It will likely be "0000:00:XX.X Mass Storage Controller: Intel Corporation Wellsburg AHCI Controller".
+
+Make a note of the hex prefix (0000:00:XX.X) and then run 'lspci -n'.
+
+Find the line corresponding to the prefix, it'll look something like '0000:00:1f.2 Class 0106: 8086:8d62 [vmhba2]'. That last part, "8086:8d62" in this case, are the vendor and device id.
+
+Then add them to your passthru.map file like so:
+
+# INTEL Wellsburg AHCI
+8086 8d62 d3d0 false
+
+```
 4. install freenas
-5. enable the pci controller inside freenas
+5. enable the ahci pci inside the free
 6. configure freenas the way you need it.
 
 
