@@ -79,15 +79,18 @@ Then add them to your passthru.map file like so:
 8086 8d62 d3d0 false
 
 ```
-4. install freenas
-5. enable the ahci pci inside the free
-6. configure freenas the way you need it.
-
+5. Setup the FreeNAS container in ESXi and make sure to use the passthrough pci device to give freenas direct access to the drives.
+4. install freenas OS
+6. setup ZFS pool.
+7. Settuping up NFS share for our ESXi datastore
 
 TODO:
 
-1. offsite backup with differential versioning. CrashPlan 
+1. offsite backup with differential versioning using CrashPlan 
 1. securing systems
+ *disabling services and locking out ports not needed to the internet.
+ *locking down NFS access
+ *setting up users and groups and make sure they match between systems. FreeNAS, ESXi, Linux.
 2. improving freenas, and other systems performance.
  *change storage network MTU to 9000
  *experiment with iSCSI storage vs NFS
