@@ -82,7 +82,8 @@ Then add them to your passthru.map file like so:
 5. Setup the FreeNAS container in ESXi and make sure to use the passthrough pci device to give freenas direct access to the drives.
 4. install freenas OS
 6. setup ZFS pool.
-7. Settuping up NFS share for our ESXi datastore
+7. Setup iSCSI share for our ESXi datastore.
+ *I found that useing NFS to store my VMs did not work. I was running into issues with the VMs crashing because they couldnt access the container within reasonable time while other things were going on at the same time (large file transfers, downloads, etc. iSCSI does not have this issue.
 
 TODO:
 
