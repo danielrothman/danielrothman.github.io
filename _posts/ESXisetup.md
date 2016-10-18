@@ -89,9 +89,8 @@ TODO:
 
 1. offsite backup with differential versioning using CrashPlan 
 1. securing systems
- *disabling services and locking out ports not needed to the internet.
- *locking down NFS access
+ *disabling services and locking out ports.
+ *locking down NFS and iSCSI access
  *setting up users and groups and make sure they match between systems. FreeNAS, ESXi, Linux.
 2. improving freenas, and other systems performance.
  *change storage network MTU to 9000
- *experiment with iSCSI storage vs NFS
